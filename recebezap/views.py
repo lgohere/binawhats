@@ -11,7 +11,7 @@ def recebezap(request):
             datajson = json.loads(datajson)
             fone_origen = datajson['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id']
             print (fone_origen[2:])
-        return HttpResponse('ok')
+        return (HttpResponse('ok'))
 
     elif request.method == 'GET' and request.GET.get('hub.challenge'):
         print('-----challenge:', request.GET['hub.challenge'])
@@ -21,7 +21,7 @@ def recebezap(request):
         return JsonResponse({'status': 'error', 'message': 'Metodo invalido.'})
 
 
-# @app.route('/recebezap', methods=['GET','POST'])
+# @app.route('/recebezap', methods=['GET','POST']
 # def recebe_zap():
 #     print('-----recebi:', request)
 #     # request.args

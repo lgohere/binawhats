@@ -125,5 +125,6 @@ STATIC_ROOT = BASE_DIR / 'static'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+APPEND_SLASH=False
 
 # ALLOWED_HOST: 'https://481f-2804-14d-8e86-8089-8927-f14a-7e2b-e897.sa.ngrok.io/'
