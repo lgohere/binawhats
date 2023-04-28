@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-r27_b+1a8!c-03$8-ze(4&pc+2&t7gqh4!e$aqzk2^wtu)rzaj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['d2df-2804-14d-8e86-8089-c414-d63c-706a-349e.ngrok-free.app', '127.0.0.1', 'localhost'] 
+ALLOWED_HOSTS = ['ccdf-2804-14d-8e86-8089-c414-d63c-706a-349e.ngrok-free.app', '127.0.0.1', 'localhost'] 
 
 
 # Application definition
@@ -41,13 +41,13 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.middleware.security.SecurityMiddleware',
+    # 'django.middleware.common.CommonMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'binawebsite.urls'
