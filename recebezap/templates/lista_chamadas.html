@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Verificação de novas chamadas</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+      function verificarNovasChamadas() {
+        var lastId = parseInt(localStorage.getItem("lastId") || "0");
+        var url = "/recebezap/novas_chamadas/?last_id=" + lastId;
+
+        $.getJSON(url, function (chamadas) {
+          console.log(chamadas);
+          chamadas.forEach(function (chamada) {
+            console.log(chamada); // Adicione esta linha para depurar cada objeto 'chamada'
+            var newUrl =
+              "https://portal.gasdelivery.com.br/secure/client/?primary_phone=" +
+              String(chamada.numero);
+            window.open(newUrl, "_blank");
+            lastId = Math.max(lastId, chamada.id);
+          });
+
+          localStorage.setItem("lastId", lastId);
+        });
+
+        setTimeout(verificarNovasChamadas, 2000);
+      }
+
+      $(document).ready(function () {
+        verificarNovasChamadas();
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Verificação de novas chamadas</h1>
+  </body>
+</html>

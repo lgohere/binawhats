@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-r27_b+1a8!c-03$8-ze(4&pc+2&t7gqh4!e$aqzk2^wtu)rzaj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ccdf-2804-14d-8e86-8089-c414-d63c-706a-349e.ngrok-free.app', '127.0.0.1', 'localhost'] 
+ALLOWED_HOSTS = ['c4ec-179-118-149-37.ngrok-free.app ', '127.0.0.1', 'localhost'] 
 
 
 # Application definition
@@ -39,6 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'recebezap'
 ]
+
+# AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
+
+
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -55,7 +61,7 @@ ROOT_URLCONF = 'binawebsite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join('/binawhats', 'recebezap', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
