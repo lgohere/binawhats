@@ -15,11 +15,13 @@ def recebezap(request):
         datajson = json.loads(request.body.decode('UTF-8'))
         if datajson:
             # datajson = json.loads(datajson)
-            fone_origen = datajson['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id']
+            fone_receptor = datajson['entry'][0]['changes'][0]['value']['metadata']['display_phone_number'] # Telefone de Destino -> que recebe os eventos. 
+            fone_origen = datajson['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'] # Telefone de Origem -> que executa os eventos.
             celular = fone_origen[2:]
             print ((celular))
-        #     # Cria uma nova instância do modelo Chamada
-            Chamada.objects.create(numero=celular)
+            print((fone_receptor))
+            # if fone_receptor == celular: 
+            Chamada.objects.create(numero=celular , receptor=fone_receptor)
 
         return HttpResponse('ok')
 
@@ -40,7 +42,8 @@ def lista_chamadas(request):
 def novas_chamadas(request):
     last_id = int(request.GET.get('last_id', 0))
     chamadas = Chamada.objects.filter(id__gt=last_id)
-    chamadas_list = list(chamadas.values('id', 'numero')) # Aqui, altere 'celular' para 'numero'
+    chamadas_list = list(chamadas.values('id', 'numero' , 'receptor'))
+    Chamada.objects.all().delete()
     return JsonResponse(chamadas_list, safe=False)
 
 
@@ -49,22 +52,22 @@ def novas_chamadas(request):
 # Autenticação do Usuário:
 
 
-def login_view(request):
-    if request.method == 'POST':
-        telefone = request.POST.get('telefone')
-        senha = request.POST.get('senha')
+# def login_view(request):
+#     if request.method == 'POST':
+#         telefone = request.POST.get('telefone')
+#         senha = request.POST.get('senha')
 
-        user = authenticate(request, telefone=telefone, password=senha)
+#         user = authenticate(request, telefone=telefone, password=senha)
 
-        if user is not None:
-            login(request, user)
-            return redirect('lista_chamadas')
-        else:
-            error_message = 'Telefone ou senha incorretos.'
-    else:
-        error_message = None
+#         if user is not None:
+#             login(request, user)
+#             return redirect('lista_chamadas')
+#         else:
+#             error_message = 'Telefone ou senha incorretos.'
+#     else:
+#         error_message = None
 
-    return render(request, 'login.html', {'error_message': error_message})
+#     return render(request, 'login.html', {'error_message': error_message})
 
 
 

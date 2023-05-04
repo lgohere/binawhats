@@ -1,37 +1,206 @@
 <!DOCTYPE html>
 <html>
   <head>
+    {% load static %}
     <meta charset="utf-8" />
     <title>Verificação de novas chamadas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
+      var executar = true; // variável de controle para indicar se a função deve continuar sendo executada
+
       function verificarNovasChamadas() {
         var lastId = parseInt(localStorage.getItem("lastId") || "0");
         var url = "/recebezap/novas_chamadas/?last_id=" + lastId;
+        var telefone = $("#input-telefone").val();
 
         $.getJSON(url, function (chamadas) {
           console.log(chamadas);
           chamadas.forEach(function (chamada) {
-            console.log(chamada); // Adicione esta linha para depurar cada objeto 'chamada'
-            var newUrl =
-              "https://portal.gasdelivery.com.br/secure/client/?primary_phone=" +
-              String(chamada.numero);
-            window.open(newUrl, "_blank");
-            lastId = Math.max(lastId, chamada.id);
+            if (telefone == chamada.receptor) {
+              var newUrl =
+                "https://portal.gasdelivery.com.br/secure/client/?primary_phone=" +
+                String(chamada.numero);
+              window.open(newUrl, "_blank");
+              lastId = Math.max(lastId, chamada.id);
+            }
           });
-
           localStorage.setItem("lastId", lastId);
-        });
 
-        setTimeout(verificarNovasChamadas, 2000);
+          if (executar) {
+            setTimeout(verificarNovasChamadas, 2000);
+          }
+        });
       }
 
       $(document).ready(function () {
-        verificarNovasChamadas();
+        $("#btn-verificar-chamadas").on("click", function () {
+          executar = true; // habilita a execução da função
+          $(this).addClass("active"); // adiciona a classe "active" ao botão
+          verificarNovasChamadas();
+        });
+
+        $("#btn-pausar-chamadas").on("click", function () {
+          executar = false; // pausa a execução da função
+          $("#btn-verificar-chamadas").removeClass("active"); // remove a classe "active" do botão
+        });
       });
     </script>
   </head>
+  <style>
+    * {
+      margin: 0 0;
+      padding: 0 0;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      width: 100%;
+      background: #0f2027; /* fallback for old browsers */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+      background: linear-gradient(
+        99.16deg,
+        rgba(255, 255, 255, 0) -38%,
+        #007df1 145.37%
+      );
+    }
+
+    .logo {
+      top: 10vh;
+      padding-bottom: 5vh;
+      height: "auto";
+    }
+
+    /* CSS */
+    .button {
+      align-items: center;
+      appearance: none;
+      background-image: radial-gradient(
+        100% 100% at 100% 0,
+        #5adaff 0,
+        #5468ff 100%
+      );
+      border: 0;
+      border-radius: 6px;
+      box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+        rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+        rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
+      box-sizing: border-box;
+      color: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      font-family: "JetBrains Mono", monospace;
+      height: 48px;
+      justify-content: center;
+      line-height: 1;
+      list-style: none;
+      overflow: hidden;
+      padding-left: 16px;
+      padding-right: 16px;
+      position: relative;
+      text-align: left;
+      text-decoration: none;
+      transition: box-shadow 0.15s, transform 0.15s;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      white-space: nowrap;
+      will-change: box-shadow, transform;
+      font-size: 18px;
+      min-width: 25vh;
+    }
+
+    .desativar {
+      background-image: radial-gradient(
+        100% 100% at 100% 0,
+        #ff2e2e 0,
+        #ff5454 100%
+      );
+    }
+
+    .button:focus {
+      box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+        rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+      border: solid black 4px;
+    }
+
+    .button:hover {
+      box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+        rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+      transform: translateY(-2px);
+    }
+
+    .button:active {
+      box-shadow: #3c4fe0 0 3px 7px inset;
+      transform: translateY(2px);
+      opacity: 0.7; /* diminui a opacidade do botão quando estiver ativo */
+    }
+
+    #texto,
+    h2 {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #input-telefone {
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    @media (min-width: 600px) {
+      /* regras CSS para telas menores que 600px de largura */
+      .logo {
+        max-width: 70%;
+      }
+      h2,
+      #input-telefone {
+        font-size: 2.5rem;
+      }
+      p {
+        font-size: 1.8rem;
+      }
+
+      #input-telefone,
+      .button,
+      #btn-verificar-chamadas,
+      #btn-pausar-chamadas {
+        width: 65%;
+        height: 5vh;
+        font-size: 1.8rem;
+        margin-top: 2vh;
+      }
+    }
+  </style>
   <body>
-    <h1>Verificação de novas chamadas</h1>
+    <div id="texto">
+      <img src="{% static 'ahgasbina.png' %}" class="logo" />
+      <h2>Aguardando novas chamadas...</h2>
+      <br />
+      <p style="color: red">
+        <strong>Habilite a permissão para abrir pop-ups.</strong>
+      </p>
+      <br />
+      <hr />
+      <input type="text" id="input-telefone" placeholder="Digite o telefone" />
+      <br />
+      <button class="button" id="btn-verificar-chamadas">Ativar</button>
+      <br />
+      <button class="button desativar" id="btn-pausar-chamadas">
+        Desativar
+      </button>
+    </div>
   </body>
 </html>

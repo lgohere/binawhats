@@ -1,13 +1,14 @@
 from django.db import models
-from django.utils import timezone
+# from django.utils import timezone
 
 class Chamada(models.Model):
     numero = models.CharField(max_length=20)
+    receptor = models.CharField(max_length=20, default='')
     # data_hora = models.DateTimeField(default=timezone.now)
     # data_hora = models.DateTimeField(time=True)
     # novo = models.BooleanField()
     def __str__(self):
-        return self.numero
+        return self.numero and self.receptor
 
 
 # from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
