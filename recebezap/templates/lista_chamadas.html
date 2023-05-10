@@ -3,12 +3,17 @@
   <head>
     {% load static %}
     <meta charset="utf-8" />
-    <title>Verificação de novas chamadas</title>
+    <title>ahgas Integração Whatsapp Business API</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
       rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="{% static 'favicon.png' %}"
     />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
@@ -33,7 +38,7 @@
           localStorage.setItem("lastId", lastId);
 
           if (executar) {
-            setTimeout(verificarNovasChamadas, 2000);
+            setTimeout(verificarNovasChamadas, 1500);
           }
         });
       }
@@ -52,11 +57,54 @@
       });
     </script>
   </head>
+
+  <body>
+    <div id="texto">
+      <div class="alinhamento">
+        <img src="{% static 'ahgasbina.png' %}" class="logo" />
+        <div style="display: flex">
+          <h2>Aguardando novas chamadas</h2>
+          <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <br />
+        <p style="color: red">
+          <strong>Habilite a permissão para abrir pop-ups.</strong>
+        </p>
+      </div>
+      <br />
+      <hr />
+      <div class="alinhamento">
+        <input
+          type="text"
+          id="input-telefone"
+          placeholder="Digite o telefone"
+        />
+        <br />
+        <button class="button" id="btn-verificar-chamadas">Ativar</button>
+        <br />
+        <button class="button desativar" id="btn-pausar-chamadas">
+          Desativar
+        </button>
+      </div>
+    </div>
+  </body>
   <style>
     * {
       margin: 0 0;
       padding: 0 0;
       font-family: "Poppins", sans-serif;
+    }
+
+    .alinhamento {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
     }
 
     body {
@@ -160,47 +208,84 @@
       padding: 10px;
     }
 
-    @media (min-width: 600px) {
+    @media (min-width: 500px) {
       /* regras CSS para telas menores que 600px de largura */
       .logo {
-        max-width: 70%;
+        max-width: 58%;
       }
       h2,
       #input-telefone {
-        font-size: 2.5rem;
+        font-size: 2.3rem;
       }
       p {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
       }
 
       #input-telefone,
       .button,
       #btn-verificar-chamadas,
       #btn-pausar-chamadas {
-        width: 65%;
+        width: 100%;
         height: 5vh;
         font-size: 1.8rem;
         margin-top: 2vh;
       }
     }
+
+    .lds-ellipsis {
+      display: inline-block;
+      position: relative;
+      width: 60px;
+      height: 60px;
+    }
+    .lds-ellipsis div {
+      position: absolute;
+      top: 40px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #fff;
+      animation-timing-function: cubic-bezier(0, 1, 1, 0);
+    }
+    .lds-ellipsis div:nth-child(1) {
+      left: 8px;
+      animation: lds-ellipsis1 0.6s infinite;
+    }
+    .lds-ellipsis div:nth-child(2) {
+      left: 8px;
+      animation: lds-ellipsis2 0.6s infinite;
+    }
+    .lds-ellipsis div:nth-child(3) {
+      left: 32px;
+      animation: lds-ellipsis2 0.6s infinite;
+    }
+    .lds-ellipsis div:nth-child(4) {
+      left: 56px;
+      animation: lds-ellipsis3 0.6s infinite;
+    }
+    @keyframes lds-ellipsis1 {
+      0% {
+        transform: scale(0);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    @keyframes lds-ellipsis3 {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(0);
+      }
+    }
+    @keyframes lds-ellipsis2 {
+      0% {
+        transform: translate(0, 0);
+      }
+      100% {
+        transform: translate(24px, 0);
+      }
+    }
   </style>
-  <body>
-    <div id="texto">
-      <img src="{% static 'ahgasbina.png' %}" class="logo" />
-      <h2>Aguardando novas chamadas...</h2>
-      <br />
-      <p style="color: red">
-        <strong>Habilite a permissão para abrir pop-ups.</strong>
-      </p>
-      <br />
-      <hr />
-      <input type="text" id="input-telefone" placeholder="Digite o telefone" />
-      <br />
-      <button class="button" id="btn-verificar-chamadas">Ativar</button>
-      <br />
-      <button class="button desativar" id="btn-pausar-chamadas">
-        Desativar
-      </button>
-    </div>
-  </body>
 </html>
